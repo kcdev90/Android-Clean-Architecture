@@ -54,7 +54,7 @@ fun PagedLazyColumn(
                     }
                 }
 
-                pageState.data.isEmpty() -> {
+                pageState.data.isEmpty() && !pageState.isInflight -> {
                     item("noData") {
                         Text(
                             text = stringResource(R.string.photo_list_no_data),
@@ -68,7 +68,7 @@ fun PagedLazyColumn(
                     content()
 
                     when {
-                        pageState.isInflight -> {
+                        !pageState.isInflight && pageState.page > 1 -> {
                             item("progressIndicator") {
                                 Box(Modifier.fillMaxWidth(), Alignment.Center) {
                                     CircularProgressIndicator()

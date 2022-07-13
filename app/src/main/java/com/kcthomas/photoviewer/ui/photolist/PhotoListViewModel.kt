@@ -39,6 +39,10 @@ class PhotoListViewModel @Inject constructor(
                     Log.e(PhotoListViewModel::class.java.simpleName, "Failed to load Photos")
                     _pageState.update { it.copy(isError = true, isInflight = false) }
                 } else {
+                    // Debug
+                    response.forEach {
+                        Log.e("Photo URL", it.url)
+                    }
                     _pageState.update {
                         it.copy(data = response, isInflight = false)
                     }
