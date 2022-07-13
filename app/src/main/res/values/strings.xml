@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name" translatable="false">PhotoViewer</string>
+    <string name="photo_list_error_message">Failed to load Photos</string>
+</resources>
