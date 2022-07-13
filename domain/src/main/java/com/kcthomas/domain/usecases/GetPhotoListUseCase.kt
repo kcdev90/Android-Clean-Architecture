@@ -4,6 +4,6 @@ import com.kcthomas.domain.PhotoListRepository
 
 class GetPhotoListUseCase(private val repository: PhotoListRepository) {
 
-    fun invoke() = repository.getPhotoList()
+    suspend fun invoke() = repository.getPhotoList()
 
 }

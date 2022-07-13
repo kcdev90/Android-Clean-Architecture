@@ -40,7 +40,7 @@ class PhotoListViewModel @Inject constructor(
                     _pageState.update { it.copy(isError = true, isInflight = false) }
                 } else {
                     _pageState.update {
-                        it.copy(data = response.photoList, isInflight = false)
+                        it.copy(data = response, isInflight = false)
                     }
                 }
             }

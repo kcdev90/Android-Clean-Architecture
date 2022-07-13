@@ -1,10 +1,12 @@
 package com.kcthomas.photoviewer.ui.photolist
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kcthomas.core.compose.PagedLazyColumn
+import com.kcthomas.photoviewer.ui.photolist.views.PhotoCard
 
 @Composable
 fun PhotoListScreen(
@@ -18,7 +20,11 @@ fun PhotoListScreen(
         loadNextPage = { viewModel.loadPhotoList(loadNextPage = true) },
     ) {
         pageState.data.forEach { photo ->
-
+            item {
+                PhotoCard(photo) {
+                    Log.e("t","${photo.author} clicked")
+                }
+            }
         }
     }
 }
