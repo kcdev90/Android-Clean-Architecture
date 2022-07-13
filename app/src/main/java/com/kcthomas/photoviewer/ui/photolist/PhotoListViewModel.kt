@@ -3,7 +3,7 @@ package com.kcthomas.photoviewer.ui.photolist
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kcthomas.core.LoadState
+import com.kcthomas.core.compose.PageState
 import com.kcthomas.domain.Photo
 import com.kcthomas.domain.PhotoListRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,27 +18,29 @@ class PhotoListViewModel @Inject constructor(
     private val repository: PhotoListRepository
 ) : ViewModel() {
 
-    data class ViewState(val photoList: List<Photo>)
-
-    private val _viewState = MutableStateFlow<LoadState<ViewState>>(LoadState.InFlight)
-    val viewState = _viewState.asStateFlow()
+    private val _pageState = MutableStateFlow(PageState<Photo>())
+    val pageState = _pageState.asStateFlow()
 
     init {
         loadPhotoList()
     }
 
-    private fun loadPhotoList() {
+    fun loadPhotoList(loadNextPage: Boolean = false) {
         viewModelScope.launch {
-            _viewState.update { LoadState.InFlight }
+            _pageState.update {
+                it.copy(
+                    isError = false,
+                    isInflight = true,
+                    page = if (loadNextPage) 1 else it.page + 1
+                )
+            }
             repository.getPhotoList().let { response ->
                 if (response == null) {
                     Log.e(PhotoListViewModel::class.java.simpleName, "Failed to load Photos")
-                    _viewState.update { LoadState.Error }
+                    _pageState.update { it.copy(isError = true, isInflight = false) }
                 } else {
-                    _viewState.update {
-                        LoadState.Success(
-                            ViewState(photoList = response.photoList)
-                        )
+                    _pageState.update {
+                        it.copy(data = response.photoList, isInflight = false)
                     }
                 }
             }

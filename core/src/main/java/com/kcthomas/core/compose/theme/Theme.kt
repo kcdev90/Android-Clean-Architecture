@@ -1,4 +1,4 @@
-package com.kcthomas.photoviewer.theme
+package com.kcthomas.core.compose.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
