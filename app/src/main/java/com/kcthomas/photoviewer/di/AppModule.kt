@@ -3,13 +3,20 @@ package com.kcthomas.photoviewer.di
 import com.kcthomas.data.PhotoListApi
 import com.kcthomas.data.PhotoListRepositoryImpl
 import com.kcthomas.data.RemotePhotoListSource
+import com.kcthomas.domain.PhotoListRepository
+import com.kcthomas.domain.usecases.GetPhotoListUseCase
+import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
+@Module
+@InstallIn(SingletonComponent::class)
 class AppModule {
 
     companion object {
@@ -47,5 +54,10 @@ class AppModule {
     @Singleton
     fun providePhotoListRepository(remoteSource: RemotePhotoListSource) =
         PhotoListRepositoryImpl(remoteSource)
+
+    @Provides
+    @Singleton
+    fun provideGetPhotoListUseCase(repository: PhotoListRepositoryImpl) =
+        GetPhotoListUseCase(repository)
 
 }

@@ -1,12 +1,12 @@
 package com.kcthomas.data
 
-import com.kcthomas.domain.PhotoListResponse
+import com.kcthomas.domain.PhotoList
 import retrofit2.Call
 import retrofit2.http.GET
 
 interface PhotoListApi {
 
     @GET("v2/list")
-    fun getPhotoList(): Call<PhotoListResponse>
+    fun getPhotoList(): Call<PhotoList>
 
 }

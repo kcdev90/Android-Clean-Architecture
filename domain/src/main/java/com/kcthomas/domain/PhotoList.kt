@@ -1,6 +1,6 @@
 package com.kcthomas.domain
 
-data class PhotoListResponse(
+data class PhotoList(
     val photoList: List<Photo>
 )
 

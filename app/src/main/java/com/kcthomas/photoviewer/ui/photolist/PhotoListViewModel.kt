@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kcthomas.core.compose.PageState
 import com.kcthomas.domain.Photo
-import com.kcthomas.domain.PhotoListRepository
+import com.kcthomas.domain.usecases.GetPhotoListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PhotoListViewModel @Inject constructor(
-    private val repository: PhotoListRepository
+    private val getPhotoListUseCase: GetPhotoListUseCase
 ) : ViewModel() {
 
     private val _pageState = MutableStateFlow(PageState<Photo>())
@@ -34,7 +34,7 @@ class PhotoListViewModel @Inject constructor(
                     page = if (loadNextPage) 1 else it.page + 1
                 )
             }
-            repository.getPhotoList().let { response ->
+            getPhotoListUseCase.invoke().let { response ->
                 if (response == null) {
                     Log.e(PhotoListViewModel::class.java.simpleName, "Failed to load Photos")
                     _pageState.update { it.copy(isError = true, isInflight = false) }
