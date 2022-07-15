@@ -26,12 +26,13 @@ class PhotoListViewModel @Inject constructor(
     }
 
     fun loadPhotoList(loadNextPage: Boolean = false) {
+        Log.e(PhotoListViewModel::class.java.simpleName, "LoadPhotoList: $loadNextPage")
         viewModelScope.launch {
             _pageState.update {
                 it.copy(
                     isError = false,
                     isInflight = true,
-                    page = if (loadNextPage) 1 else it.page + 1
+                    page = if (loadNextPage) it.page + 1 else 1
                 )
             }
             getPhotoListUseCase.invoke().let { response ->
@@ -39,15 +40,12 @@ class PhotoListViewModel @Inject constructor(
                     Log.e(PhotoListViewModel::class.java.simpleName, "Failed to load Photos")
                     _pageState.update { it.copy(isError = true, isInflight = false) }
                 } else {
-                    // Debug
-                    response.forEach {
-                        Log.e("Photo URL", it.url)
-                    }
                     _pageState.update {
                         it.copy(data = response, isInflight = false)
                     }
                 }
             }
+            Log.e(PhotoListViewModel::class.java.simpleName, "page: ${_pageState.value.page}")
         }
     }
 

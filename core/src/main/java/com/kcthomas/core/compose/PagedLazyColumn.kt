@@ -1,8 +1,14 @@
 package com.kcthomas.core.compose
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -14,9 +20,12 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.kcthomas.core.R
@@ -40,17 +49,30 @@ fun PagedLazyColumn(
         val lazyListState = rememberLazyListState()
         LazyColumn(
             state = lazyListState,
+            verticalArrangement = Arrangement.Center,
             modifier = Modifier.fillMaxSize()
         ) {
             when {
                 pageState.isError && pageState.page == 1 -> {
                     item("errorFirstPage") {
                         // TODO - Show Snackbar
-                        Text(
-                            text = stringResource(R.string.photo_list_error_load),
-                            fontStyle = FontStyle.Italic,
-                            color = Color.LightGray
-                        )
+                        Column(
+                            modifier = Modifier.fillMaxSize(),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Image(
+                                modifier = Modifier.size(150.dp),
+                                painter = painterResource(R.drawable.ic_warning),
+                                contentDescription = stringResource(R.string.photo_list_error_load)
+                            )
+                            Spacer(Modifier.height(16.dp))
+                            Text(
+                                text = stringResource(R.string.photo_list_error_load),
+                                fontStyle = FontStyle.Italic,
+                                fontSize = 24.sp,
+                                color = Color.Gray
+                            )
+                        }
                     }
                 }
 
@@ -59,7 +81,7 @@ fun PagedLazyColumn(
                         Text(
                             text = stringResource(R.string.photo_list_no_data),
                             fontStyle = FontStyle.Italic,
-                            color = Color.LightGray
+                            color = Color.Gray
                         )
                     }
                 }
