@@ -10,7 +10,7 @@ A Photo Viewer app to demo Android's clean architecture priciples. Makes a call 
 **Screenshots**
 ----------
 
-![home](https://github.com/kcdev90/Android-Clean-Architecture/blob/develop/screenshots/mainscreen.png)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+![home](https://github.com/kcdev90/Android-Clean-Architecture/blob/develop/screenshots/photolist.png)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 **Features**
 ----------
